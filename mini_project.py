@@ -430,7 +430,7 @@ if st.button("Generate All Charts"):
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
     <div style='text-align: center; font-size: 12px; font-weight: normal;'>
-        กราฟนี้แสดงประสิทธิภาพในการตรวจจับคำตามประเภทขององค์ประกอบของชื่อและที่อยู่
+        กราฟนี้แสดงประสิทธิภาพในการตรวจจับคำตามประเภทขององค์ประกอบของชื่อและที่อยู่ <br>
     </div>
 """, unsafe_allow_html=True)
     # Display the summary table
