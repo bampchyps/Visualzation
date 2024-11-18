@@ -350,6 +350,11 @@ if st.button("Generate All Charts"):
         labels={"Count": "Count", "Pattern": "Prediction Pattern"}
     )
     st.plotly_chart(fig, use_container_width=True)
+    st.markdown("""
+    <div style='text-align: center; font-size: 12px; font-weight: normal;'>
+        กราฟนี้แสดงข้อมูลความถี่ของประเภทประโยคที่โมเดลตรวจจับได้
+    </div>
+""", unsafe_allow_html=True)
 
     # Match Comparison Chart
     # Match Comparison Chart
@@ -392,7 +397,7 @@ if st.button("Generate All Charts"):
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
     <div style='text-align: center; font-size: 12px; font-weight: normal;'>
-        กราฟนี้แสดงข้อมูลความถี่ของประเภทประโยคที่โมเดลตรวจจับได้
+        กราฟนี้แสดงประสิทธิภาพในการตรวจจับคำตามผลของการทำนาย
     </div>
 """, unsafe_allow_html=True)
     st.markdown('------------------------------------')
