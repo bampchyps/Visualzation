@@ -208,7 +208,7 @@ subdistrict_variants = ["บางกอกน้อย", "บางกอกใ
 district_variants = ["คลองสาน", "ปทุมวัน","ราษฎร์บูรณะ", "ดุสิต","พญาไท", "บางรัก", "มีนบุรี"]
 province_variants = selected_provinces if selected_provinces else provinces
 postal_codes = ["10110", "10230" ,"20000", "10200", "10210", "10220", "10230",
-    "10300", "10310""21000","30000",  # Nakhon Ratchasima
+    "10300", "10310","21000","30000",  # Nakhon Ratchasima
     "40000",  # Khon Kaen
     "50000",  # Chiang Mai
     "60000",  # Nakhon Sawan
