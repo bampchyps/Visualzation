@@ -17,6 +17,20 @@ stopwords = ["ผู้", "ที่", "ซึ่ง", "อัน"]
 # Streamlit UI
 st.title('Address Detection Visualization')
 st.markdown('------------------------------------')
+# Description
+st.markdown("""
+    <div style='border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #F9F9F9;'>
+        แผนที่นี้แสดงประสิทธิภาพของแบบจำลองในการทำทายองค์ประกอบของสถานที่ โดยแบ่งเป็น 
+        <b>ชื่อสถานที่ (LOC)</b>, เขตการปกครอง เช่น ตำบล อำเภอ ถนน 
+        <b>(ADDR)</b>, รหัสไปรษณีย์ <b>(POST)</b>, และสิ่งที่ไม่เกี่ยวข้องกับสถานที่จะถูกทำทายเป็น 
+        <b>(O)</b> โดยชื่อของแต่ละหัวข้อด้านบนแผนที่แสดงถึงความแม่นยำในการทำทาย:
+        <ul>
+            <li>วางตำแหน่งเนื้อหาที่เกี่ยวข้องชัดเจนและสะดวกสำหรับการอ่าน</li>
+            <li>ใช้กล่องข้อความเพื่ออธิบายส่วนรายละเอียดที่มีความหมาย</li>
+            <li>ใช้กล่องสื่อมโนมติเพื่อเปรียบเทียบคะแนนความแม่นยำของหัวข้อหลัก ๆ จากสูงสุดไปต่ำสุด</li>
+        </ul>
+    </div>
+""", unsafe_allow_html=True)
 # Feature extraction function
 def tokens_to_features(tokens, i):
     word = tokens[i]
