@@ -308,7 +308,7 @@ if st.button("Generate All Charts"):
     st.dataframe(df_addresses)  # Display the DataFrame
 
     st.markdown("""
-    <div style='border: 2px solid #000; padding: 15px; border-radius: 10px; background-color: #F5F5F5; font-family: Arial, sans-serif;'>
+    <div style='border: 1px solid #000; padding: 10px; border-radius: 10px; background-color: #F5F5F5; font-family: Arial, sans-serif;'>
         <b>LOC</b> >> หมายถึงเมื่อแบบจำลองตรวจจับได้ว่าเป็น ตำบล อำเภอ หรือจังหวัด <br>
         <b>POST</b> >> หมายถึงเมื่อแบบจำลองตรวจจับได้ว่าเป็นรหัสไปรษณีย์ <br>
         <b>ADDR</b> >> หมายถึงเมื่อแบบจำลองตรวจจับได้ว่าเป็นส่วนประกอบอื่น ๆ ของที่อยู่ <br>
