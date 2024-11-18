@@ -197,7 +197,7 @@ format_options = {
 # Set "No prefix" as the default for all components
 selected_formats = {
     key: st.multiselect(
-        f"เลือกคำนำหน้า {key}",
+        f"เลือกรูปแบบคำนำหน้า {key}",
         options,
         default=["ไม่มี"] if "ไม่มี" in options else []
     )
