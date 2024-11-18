@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import joblib
 import folium
+import plotly.express as px
 from streamlit_folium import st_folium
 # Load the model
 model = joblib.load("model.joblib")
@@ -188,14 +189,27 @@ selected_formats = {
 }
 
 # Mock data for other components
-first_names = ["สมชาย", "สมหญิง", "วรพล", "จันทร์เพ็ญ"]
-village_variants = ["สุขสันต์", "ทรัพย์มั่นคง"]
-soi_variants = ["สุขใจ", "เจริญนคร"]
-road_variants = ["บางนา-ตราด", "เพชรเกษม"]
-subdistrict_variants = ["บางรัก", "ลาดพร้าว"]
-district_variants = ["คลองสาน", "ปทุมวัน"]
+first_names = ["สมชาย", "สมหญิง", "วรพล", "จันทร์เพ็ญ","เข็มกลัด", "กรการ", "เทิดทูล", "เด่นชัด"]
+village_variants = ["สุขสันต์", "ทรัพย์มั่นคง","บ้านเพชร", "บ้านทองคำ", "บ้านร่มรื่น", "บ้านฟ้าใส"]
+soi_variants = ["โชคชัย", "เจริญนคร", "สุขสมใจ", "เจริญรุ่งเรือง", "บ้านใหม่", "สุขใจ", "เจริญนคร"]
+road_variants = ["บางนา-ตราด", "เพชรเกษม","เพชรเกษม", "สุขุมวิท", "รามคำแหง"]
+subdistrict_variants = ["บางกอกน้อย", "บางกอกใหญ่", "ธนบุรี", "บางพลัด"]
+district_variants = ["คลองสาน", "ปทุมวัน","ราษฎร์บูรณะ", "ดุสิต","พญาไท", "บางรัก", "มีนบุรี"]
 province_variants = selected_provinces if selected_provinces else provinces
-postal_codes = ["10110", "10230"]
+postal_codes = ["10110", "10230" ,"20000", "10200", "10210", "10220", "10230",
+    "10300", "10310""21000","30000",  # Nakhon Ratchasima
+    "40000",  # Khon Kaen
+    "50000",  # Chiang Mai
+    "60000",  # Nakhon Sawan
+    "70000",  # Ratchaburi
+    "80000",  # Nakhon Si Thammarat
+    "90000",  # Songkhla
+    "91000",  # Satun
+    "92000",  # Trang
+    "93000",  # Phatthalung
+    "94000",  # Pattani
+    "96000",  # Narathiwat
+    "97000",  ]
 
 # Generate a random address
 def generate_address(selected_formats):
@@ -219,7 +233,7 @@ def generate_address(selected_formats):
     }
 
 # Generate address samples
-def generate_samples(selected_formats, num_samples=100):
+def generate_samples(selected_formats, num_samples=50):
     sample_addresses = []
     predicted_tags_list = []
     label_list = []
@@ -286,50 +300,95 @@ if st.button("Generate All Charts"):
     flat_predictions = [tag for sublist in df_addresses["Predict"] for tag in sublist]
 
     # Confusion Matrix
+    # Confusion Matrix
     def create_confusion_matrix(true_labels, predicted_labels):
         labels = ["O", "LOC", "POST", "ADDR"]  # Define label categories
         cm = confusion_matrix(true_labels, predicted_labels, labels=labels)
         return pd.DataFrame(cm, index=labels, columns=labels)
 
     cm_df = create_confusion_matrix(flat_labels, flat_predictions)
-    st.markdown("### Confusion Matrix")
     fig, ax = plt.subplots(figsize=(8, 6))
-    sns.heatmap(cm_df,annot=True,fmt="d",cmap="Blues", linecolor="white", ax=ax)
+    #sns.heatmap(cm_df, annot=True, fmt="d", cmap="Blues", linecolor="white", linewidths=0.5, ax=ax)
     ax.set_xlabel("Predict", fontsize=12)
     ax.set_ylabel("Label", fontsize=12)
-    #ax.set_title("Confusion Matrix", fontsize=14, fontweight="bold")
-    st.pyplot(fig)
+    #st.pyplot(fig)
 
     # Sentence-Level Prediction Patterns Bar Chart
     sentence_patterns = [" ".join(pred) for pred in df_addresses["Predict"]]
     pattern_counts = pd.Series(sentence_patterns).value_counts().reset_index()
     pattern_counts.columns = ['Pattern', 'Count']
-    
-    # Display the bar chart for sentence patterns
-    st.markdown("### Prediction Sentence Patterns Bar Chart")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.barplot(data=pattern_counts, x='Count', y='Pattern', ax=ax, orient='h')
-    ax.set_xlabel("Count")
-    ax.set_ylabel("Prediction Pattern")
-    ax.set_title("Frequency of Prediction Patterns (Sentence Level)")
-    st.pyplot(fig)
-    
+    pattern_counts = pattern_counts.sort_values(by="Count", ascending=True)
+    # Prediction Sentence Patterns
+    st.markdown("### Prediction Sentence Patterns")
+    fig = px.bar(
+        pattern_counts,
+        x="Count",
+        y="Pattern",
+        orientation='h',
+        #title="Frequency of Prediction Patterns",
+        labels={"Count": "Count", "Pattern": "Prediction Pattern"}
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
     # Match Comparison Chart
     comparison_df = pd.DataFrame({
         "Label": flat_labels,
         "Predict": flat_predictions
     })
     comparison_df["Match"] = comparison_df["Label"] == comparison_df["Predict"]
-    
+
+    # Count matches and mismatches
     comparison_counts = comparison_df.groupby(["Label", "Match"]).size().reset_index(name="Count")
     comparison_pivot = comparison_counts.pivot(index="Label", columns="Match", values="Count").fillna(0)
-    comparison_pivot.columns = ["False", "True"]  # Rename columns for clarity
+    comparison_pivot.columns = ["Incorrect", "Correct"]  # Update column names
     comparison_pivot = comparison_pivot.reset_index()
 
-    st.markdown("### Match Comparison Chart")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    comparison_pivot.plot(kind="bar", x="Label", stacked=True, color=["red", "green"], ax=ax)
-    ax.set_xlabel("Label Type")
-    ax.set_ylabel("Count")
-    ax.set_title("True vs False Matches for Each Label Type")
-    st.pyplot(fig)
+    st.markdown("### Prediction Comparison Chart")
+    comparison_melted = comparison_pivot.melt(id_vars="Label", var_name="Match Type", value_name="Count")
+
+    fig = px.bar(
+        comparison_melted,
+        x="Label",
+        y="Count",
+        color="Match Type",
+        barmode="stack",
+        #title="Correct vs Incorrect Matches for Each Label Type",
+        labels={"Label": "Label Type", "Count": "Count", "Match Type": "Match Type"}
+    )
+    st.plotly_chart(fig, use_container_width=True)
+    # Component-wise Correct/Incorrect Summary
+    st.markdown("#### Component of Adrress Correct vs Incorrect")
+    components_order = ["Name", "HouseNumber", "Village", "Soi", "Road", "Subdistrict", "District", "Province", "PostalCode"]
+    component_summary = []
+
+    # Analyze correct and incorrect counts for each component
+    for i, component in enumerate(components_order):
+        correct_count = 0
+        incorrect_count = 0
+        for pred, label in zip(predictions, labels):
+            if i < len(pred) and i < len(label):  # Avoid index errors
+                if pred[i] == label[i]:
+                    correct_count += 1
+                else:
+                    incorrect_count += 1
+        component_summary.append({"Component": component, "Correct": correct_count, "Incorrect": incorrect_count})
+
+    # Convert to DataFrame for visualization
+    summary_df = pd.DataFrame(component_summary)
+
+    # Create an interactive bar chart using Plotly
+    fig = px.bar(
+        summary_df.melt(id_vars="Component", var_name="Type", value_name="Count"),
+        x="Component",
+        y="Count",
+        color="Type",
+        barmode="stack",
+        #title="Component-Wise Correct vs Incorrect Count",
+        labels={"Component": "Component", "Count": "Count", "Type": "Type"}
+    )
+
+    # Display the interactive chart
+    st.plotly_chart(fig, use_container_width=True)
+
+    # Display the summary table
+    st.dataframe(summary_df.reset_index(drop=True), use_container_width=True)
