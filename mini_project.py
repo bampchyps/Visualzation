@@ -390,7 +390,7 @@ if st.button("Generate All Charts"):
 
     # Plotly chart
     st.plotly_chart(fig, use_container_width=True)
-
+    st.markdown("###### กราฟนี้แสดงข้อมูลความถี่ของประเภอประโยคที่โมเดลตรวจจับได้")
     # Component-wise Correct/Incorrect Summary
     st.markdown("#### Component of Address (Correct vs Incorrect)")
     components_order = ["Name", "HouseNumber", "Village", "Soi", "Road", "Subdistrict", "District", "Province", "PostalCode"]
