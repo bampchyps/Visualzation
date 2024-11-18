@@ -355,7 +355,7 @@ if st.button("Generate All Charts"):
         กราฟนี้แสดงข้อมูลความถี่ของประเภทประโยคที่โมเดลตรวจจับได้
     </div>
 """, unsafe_allow_html=True)
-
+    st.markdown('------------------------------------')
     # Match Comparison Chart
     # Match Comparison Chart
     comparison_df = pd.DataFrame({
