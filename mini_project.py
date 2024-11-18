@@ -313,8 +313,8 @@ if st.button("Generate All Charts"):
     st.dataframe(df_addresses)  # Display the DataFrame
 
     # Flatten Labels and Predictions for analysis
-    flat_labels = [tag for sublist in df_addresses["Labels"] for tag in sublist]
-    flat_predictions = [tag for sublist in df_addresses["Predict"] for tag in sublist]
+    flat_labels = [tag for sublist in df_addresses["ผลลัพธ์ที่ถูกต้อง"] for tag in sublist]
+    flat_predictions = [tag for sublist in df_addresses["ผลการทำนาย"] for tag in sublist]
 
     # Confusion Matrix
     # Confusion Matrix
