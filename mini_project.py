@@ -16,6 +16,7 @@ stopwords = ["ผู้", "ที่", "ซึ่ง", "อัน"]
 
 # Streamlit UI
 st.title('Address Detection Visualization')
+st.markdown('------------------------------------')
 # Feature extraction function
 def tokens_to_features(tokens, i):
     word = tokens[i]
