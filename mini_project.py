@@ -395,6 +395,7 @@ if st.button("Generate All Charts"):
         กราฟนี้แสดงข้อมูลความถี่ของประเภทประโยคที่โมเดลตรวจจับได้
     </div>
 """, unsafe_allow_html=True)
+    st.markdown('------------------------------------')
     # Component-wise Correct/Incorrect Summary
     st.markdown("#### Component of Address (Correct vs Incorrect)")
     components_order = ["Name", "HouseNumber", "Village", "Soi", "Road", "Subdistrict", "District", "Province", "PostalCode"]
@@ -433,5 +434,6 @@ if st.button("Generate All Charts"):
         กราฟนี้แสดงประสิทธิภาพในการตรวจจับคำตามประเภทขององค์ประกอบของชื่อและที่อยู่ <br>
     </div>
 """, unsafe_allow_html=True)
+    st.markdown('------------------------------------')
     # Display the summary table
     st.dataframe(summary_df.reset_index(drop=True), use_container_width=True)
