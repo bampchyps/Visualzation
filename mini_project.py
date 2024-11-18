@@ -16,7 +16,7 @@ stopwords = ["ผู้", "ที่", "ซึ่ง", "อัน"]
 
 # Streamlit UI
 st.title('Address Detection Visualization')
-st.markdown('------------------------------------')
+#st.markdown('------------------------------------')
 # Description
 st.markdown("""
     <div style='border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #F9F9F9;'>
