@@ -169,13 +169,13 @@ st_folium(province_map, width=800, height=600)
 
 # Address format options with "No prefix" set as the default
 format_options = {
-    "ชื่อ": ["นาย", "นาง", "นางสาว", "No prefix"],
-    "หมู่บ้าน": ["หมู่บ้าน", "ม.", "No prefix"],
-    "ซอย": ["ซอย", "ซ.", "No prefix"],
-    "ถนน": ["ถนน", "ถ.", "No prefix"],
-    "ตำบล": ["ตำบล", "ต.", "แขวง", "No prefix"],
-    "อำเภอ": ["อำเภอ", "อ.", "เขต", "No prefix"],
-    "จังหวัด": ["จังหวัด", "จ.", "No prefix"]
+    "ชื่อ": ["นาย", "นาง", "นางสาว","ด.ช.","ด.ญ.", "ไม่มี"],
+    "หมู่บ้าน": ["หมู่บ้าน", "ม.", "ไม่มี"],
+    "ซอย": ["ซอย", "ซ.", "ไม่มี"],
+    "ถนน": ["ถนน", "ถ.", "ไม่มี"],
+    "ตำบล": ["ตำบล", "ต.", "แขวง", "ไม่มี"],
+    "อำเภอ": ["อำเภอ", "อ.", "เขต", "ไม่มี"],
+    "จังหวัด": ["จังหวัด", "จ.", "ไม่มี"]
 }
 
 # Set "No prefix" as the default for all components
@@ -183,7 +183,7 @@ selected_formats = {
     key: st.multiselect(
         f"เลือกคำนำหน้า {key}",
         options,
-        default=["No prefix"] if "No prefix" in options else []
+        default=["ไม่มี"] if "ไม่มี" in options else []
     )
     for key, options in format_options.items()
 }
@@ -215,10 +215,11 @@ postal_codes = ["10110", "10230" ,"20000", "10200", "10210", "10220", "10230",
 def generate_address(selected_formats):
     def format_component(format_key, variants):
         selected_format = random.choice(selected_formats[format_key]) if selected_formats[format_key] else ""
-        return f"{selected_format}{random.choice(variants)}" if selected_format != "No prefix" else random.choice(variants)
+        return f"{selected_format}{random.choice(variants)}" if selected_format != "ไม่มี" else random.choice(variants)
 
     # Handle House Number directly
-    house_number = random.choice(["123", "456/78", "99/1", "123หมู่1"])
+    house_number = random.choice(["553", "456/78", "99/1", "123หมู่1","88/22", "234", "5/3", "12", "900หมู่12", "101",
+    "74/11", "87หมู่3", "55หมู่9"])
 
     return {
         "ชื่อ": format_component("ชื่อ", first_names),
