@@ -1,8 +1,8 @@
-streamlit
-pandas
-seaborn
-matplotlib
-scikit-learn
-joblib
-folium
-streamlit-folium
+streamlit>=1.0.0
+pandas>=1.0.0
+seaborn>=0.11.0
+matplotlib>=3.0.0
+scikit-learn>=0.24.0
+joblib>=1.0.0
+folium>=0.12.0
+streamlit-folium>=0.8.0
