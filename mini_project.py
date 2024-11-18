@@ -428,6 +428,10 @@ if st.button("Generate All Charts"):
 
     # Display the interactive chart
     st.plotly_chart(fig, use_container_width=True)
-
+    st.markdown("""
+    <div style='text-align: center; font-size: 12px; font-weight: normal;'>
+        กราฟนี้แสดงประสิทธิภาพในการตรวจจับคำตามประเภทขององค์ประกอบของชื่อและที่อยู่
+    </div>
+""", unsafe_allow_html=True)
     # Display the summary table
     st.dataframe(summary_df.reset_index(drop=True), use_container_width=True)
