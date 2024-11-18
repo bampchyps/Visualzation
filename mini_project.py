@@ -308,11 +308,11 @@ if st.button("Generate All Charts"):
     st.dataframe(df_addresses)  # Display the DataFrame
 
     st.markdown("""
-    <div style='border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #F9F9F9;'>
-        <b>LOC</b> >> เมื่อตรวจจับได้เป็น ตำบล อำเภอ หรือจังหวัด <br>
-        <b>POST</b> >> เมื่อตรวจจับได้เป็นรหัสไปรษณีย์ <br>
-        <b>ADDR</b> >> เมื่อตรวจจับได้เป็นส่วนประกอบที่อยู่อื่น ๆ <br>
-        <b>O</b> >> เมื่อตรวจจับได้เป็นส่วนที่เหลือ
+    <div style='border: 2px solid #000; padding: 15px; border-radius: 10px; background-color: #F5F5F5; font-family: Arial, sans-serif;'>
+        <b>LOC</b> >> หมายถึงเมื่อแบบจำลองตรวจจับได้ว่าเป็น ตำบล อำเภอ หรือจังหวัด <br>
+        <b>POST</b> >> หมายถึงเมื่อแบบจำลองตรวจจับได้ว่าเป็นรหัสไปรษณีย์ <br>
+        <b>ADDR</b> >> หมายถึงเมื่อแบบจำลองตรวจจับได้ว่าเป็นส่วนประกอบอื่น ๆ ของที่อยู่ <br>
+        <b>O</b> >> หมายถึงเมื่อแบบจำลองตรวจจับได้ว่าเป็นส่วนที่ไม่เกี่ยวข้องกับที่อยู่
     </div>
 """, unsafe_allow_html=True)
     st.markdown('------------------------------------')
