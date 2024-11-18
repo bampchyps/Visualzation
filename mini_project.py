@@ -306,16 +306,16 @@ if st.button("Generate All Charts"):
     
     # Create DataFrame
     df_addresses = pd.DataFrame({
-        "ชื่อและที่อยู่ตามรูปแบบที่เลือก": samples,
-        "ผลการทำนาย": predictions,
-        "ผลลัพธ์ที่ถูกต้อง": labels,
+        "Address ": samples,
+        "Predict": predictions,
+        "Labels": labels,
     })
     st.dataframe(df_addresses)  # Display the DataFrame
 
     # Flatten Labels and Predictions for analysis
-    flat_labels = [tag for sublist in df_addresses["ผลลัพธ์ที่ถูกต้อง"] for tag in sublist]
-    flat_predictions = [tag for sublist in df_addresses["ผลการทำนาย"] for tag in sublist]
-
+    flat_labels = [tag for sublist in df_addresses["Labels"] for tag in sublist]
+    flat_predictions = [tag for sublist in df_addresses["Predict"] for tag in sublist]
+    
     # Confusion Matrix
     # Confusion Matrix
     def create_confusion_matrix(true_labels, predicted_labels):
