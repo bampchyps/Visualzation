@@ -388,7 +388,7 @@ if st.button("Generate All Charts"):
     st.plotly_chart(fig, use_container_width=True)
 
     # Component-wise Correct/Incorrect Summary
-    st.markdown("#### Component of Address Correct vs Incorrect")
+    st.markdown("#### Component of Address (Correct vs Incorrect)")
     components_order = ["Name", "HouseNumber", "Village", "Soi", "Road", "Subdistrict", "District", "Province", "PostalCode"]
     component_summary = []
 
