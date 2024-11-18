@@ -136,12 +136,11 @@ province_coords = {
     "ชุมพร": (10.4959, 99.1800)
 }
 
-# Create a list of all provinces
 provinces = list(province_coords.keys())
 
 # Streamlit multi-select for provinces
 selected_provinces = st.multiselect(
-    "Select Provinces",
+    "เลือกจังหวัด",
     provinces,
     default=["กรุงเทพ", "นนทบุรี", "ปทุมธานี", "สมุทรปราการ", "ชลบุรี", "เชียงใหม่", "ภูเก็ต"]
 )
@@ -163,34 +162,32 @@ def create_map(selected_provinces):
     return m
 
 # Display the map
-st.markdown("### Highlighted Provinces on Map")
+st.markdown("### ตำแหน่งจังหวัดที่เลือก")
 province_map = create_map(selected_provinces)
 st_folium(province_map, width=800, height=600)
 
-
 # Address format options with "No prefix" set as the default
 format_options = {
-    "Name": ["นาย", "นาง", "นางสาว", "No prefix"],
-    "HouseNumber": ["123/45", "123", "123หมู่1"],
-    "Village": ["หมู่บ้าน", "ม.", "No prefix"],
-    "Soi": ["ซอย", "ซ.", "No prefix"],
-    "Road": ["ถนน", "ถ.", "No prefix"],
-    "Subdistrict": ["ตำบล", "ต.", "แขวง","No prefix"],
-    "District": ["อำเภอ", "อ.", "เขต","No prefix"],
-    "Province": ["จังหวัด", "จ.", "No prefix"]
+    "ชื่อ": ["นาย", "นาง", "นางสาว", "No prefix"],
+    "หมู่บ้าน": ["หมู่บ้าน", "ม.", "No prefix"],
+    "ซอย": ["ซอย", "ซ.", "No prefix"],
+    "ถนน": ["ถนน", "ถ.", "No prefix"],
+    "ตำบล": ["ตำบล", "ต.", "แขวง", "No prefix"],
+    "อำเภอ": ["อำเภอ", "อ.", "เขต", "No prefix"],
+    "จังหวัด": ["จังหวัด", "จ.", "No prefix"]
 }
 
 # Set "No prefix" as the default for all components
 selected_formats = {
     key: st.multiselect(
-        f"Select {key} Format",
+        f"เลือกคำนำหน้า {key}",
         options,
         default=["No prefix"] if "No prefix" in options else []
     )
     for key, options in format_options.items()
 }
 
-# Mock data for variants
+# Mock data for other components
 first_names = ["สมชาย", "สมหญิง", "วรพล", "จันทร์เพ็ญ"]
 village_variants = ["สุขสันต์", "ทรัพย์มั่นคง"]
 soi_variants = ["สุขใจ", "เจริญนคร"]
@@ -206,16 +203,19 @@ def generate_address(selected_formats):
         selected_format = random.choice(selected_formats[format_key]) if selected_formats[format_key] else ""
         return f"{selected_format}{random.choice(variants)}" if selected_format != "No prefix" else random.choice(variants)
 
+    # Handle House Number directly
+    house_number = random.choice(["123", "456/78", "99/1", "123หมู่1"])
+
     return {
-        "Name": format_component("Name", first_names),
-        "HouseNumber": format_component("HouseNumber", ["123", "123/45", "123หมู่1"]),
-        "Village": format_component("Village", village_variants),
-        "Soi": format_component("Soi", soi_variants),
-        "Road": format_component("Road", road_variants),
-        "Subdistrict": format_component("Subdistrict", subdistrict_variants),
-        "District": format_component("District", district_variants),
-        "Province": format_component("Province", province_variants),
-        "PostalCode": random.choice(postal_codes)
+        "ชื่อ": format_component("ชื่อ", first_names),
+        "บ้านเลขที่": house_number,
+        "หมู่บ้าน": format_component("หมู่บ้าน", village_variants),
+        "ซอย": format_component("ซอย", soi_variants),
+        "ถนน": format_component("ถนน", road_variants),
+        "ตำบล": format_component("ตำบล", subdistrict_variants),
+        "อำเภอ": format_component("อำเภอ", district_variants),
+        "จังหวัด": format_component("จังหวัด", province_variants),
+        "รหัสไปรษณีย์": random.choice(postal_codes)
     }
 
 # Generate address samples
@@ -226,19 +226,19 @@ def generate_samples(selected_formats, num_samples=100):
 
     # Tag labels for components
     tag_labels = {
-        "Name": "O",
-        "HouseNumber": "ADDR",
-        "Village": "ADDR",
-        "Soi": "ADDR",
-        "Road": "ADDR",
-        "Subdistrict": "LOC",
-        "District": "LOC",
-        "Province": "LOC",
-        "PostalCode": "POST"
+        "ชื่อ": "O",
+        "บ้านเลขที่": "ADDR",
+        "หมู่บ้าน": "ADDR",
+        "ซอย": "ADDR",
+        "ถนน": "ADDR",
+        "ตำบล": "LOC",
+        "อำเภอ": "LOC",
+        "จังหวัด": "LOC",
+        "รหัสไปรษณีย์": "POST"
     }
 
     # Define the components order and visibility
-    components_order = ["Name", "HouseNumber", "Village", "Soi", "Road", "Subdistrict", "District", "Province", "PostalCode"]
+    components_order = ["ชื่อ", "บ้านเลขที่", "หมู่บ้าน", "ซอย", "ถนน", "ตำบล", "อำเภอ", "จังหวัด", "รหัสไปรษณีย์"]
     component_visibility = {component: True for component in components_order}  # Default: all visible
 
     for _ in range(num_samples):
@@ -275,15 +275,15 @@ if st.button("Generate All Charts"):
     
     # Create DataFrame
     df_addresses = pd.DataFrame({
-        "Address": samples,
+        "ที่อยู่ ": samples,
+        "Predict": predictions,
         "Labels": labels,
-        "Prediction": predictions
     })
     st.dataframe(df_addresses)  # Display the DataFrame
 
     # Flatten Labels and Predictions for analysis
     flat_labels = [tag for sublist in df_addresses["Labels"] for tag in sublist]
-    flat_predictions = [tag for sublist in df_addresses["Prediction"] for tag in sublist]
+    flat_predictions = [tag for sublist in df_addresses["Predict"] for tag in sublist]
 
     # Confusion Matrix
     def create_confusion_matrix(true_labels, predicted_labels):
@@ -294,14 +294,14 @@ if st.button("Generate All Charts"):
     cm_df = create_confusion_matrix(flat_labels, flat_predictions)
     st.markdown("### Confusion Matrix")
     fig, ax = plt.subplots(figsize=(8, 6))
-    sns.heatmap(cm_df, annot=True, fmt="d", cmap="Reds", cbar=True, ax=ax)
-    ax.set_xlabel("Predicted Labels")
-    ax.set_ylabel("True Labels")
-    ax.set_title("Confusion Matrix")
+    sns.heatmap(cm_df,annot=True,fmt="d",cmap="Blues", linecolor="white", ax=ax)
+    ax.set_xlabel("Predict", fontsize=12)
+    ax.set_ylabel("Label", fontsize=12)
+    #ax.set_title("Confusion Matrix", fontsize=14, fontweight="bold")
     st.pyplot(fig)
 
     # Sentence-Level Prediction Patterns Bar Chart
-    sentence_patterns = [" ".join(pred) for pred in df_addresses["Prediction"]]
+    sentence_patterns = [" ".join(pred) for pred in df_addresses["Predict"]]
     pattern_counts = pd.Series(sentence_patterns).value_counts().reset_index()
     pattern_counts.columns = ['Pattern', 'Count']
     
@@ -317,9 +317,9 @@ if st.button("Generate All Charts"):
     # Match Comparison Chart
     comparison_df = pd.DataFrame({
         "Label": flat_labels,
-        "Prediction": flat_predictions
+        "Predict": flat_predictions
     })
-    comparison_df["Match"] = comparison_df["Label"] == comparison_df["Prediction"]
+    comparison_df["Match"] = comparison_df["Label"] == comparison_df["Predict"]
     
     comparison_counts = comparison_df.groupby(["Label", "Match"]).size().reset_index(name="Count")
     comparison_pivot = comparison_counts.pivot(index="Label", columns="Match", values="Count").fillna(0)
