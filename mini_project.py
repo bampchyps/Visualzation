@@ -315,6 +315,7 @@ if st.button("Generate All Charts"):
         <b>O</b> >> เมื่อตรวจจับได้เป็นส่วนที่เหลือ
     </div>
 """, unsafe_allow_html=True)
+    st.markdown('------------------------------------')
     # Flatten Labels and Predictions for analysis
     flat_labels = [tag for sublist in df_addresses["Labels"] for tag in sublist]
     flat_predictions = [tag for sublist in df_addresses["Predict"] for tag in sublist]
