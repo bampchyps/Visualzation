@@ -307,6 +307,13 @@ if st.button("Generate All Charts"):
     })
     st.dataframe(df_addresses)  # Display the DataFrame
 
+    st.markdown("""
+    <div style='border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #F9F9F9;'>
+           LOC >>    เมื่อตรวจจับได้เป็น ตำบล อำเภอ หรือจังหวัด <br>
+           POST >> เมื่อตรวจจับได้เป็นรหัสไปรษณีย์ <br>
+           ADDR >> เมื่อตรวจจับได้เป็นส่วนประกอบที่อยู่อื่น ๆ) <br>
+           O >> เมื่อตรวจจับได้เป็นส่วนที่เหลือ
+    </div>
     # Flatten Labels and Predictions for analysis
     flat_labels = [tag for sublist in df_addresses["Labels"] for tag in sublist]
     flat_predictions = [tag for sublist in df_addresses["Predict"] for tag in sublist]
