@@ -332,6 +332,7 @@ if st.button("Generate All Charts"):
     st.plotly_chart(fig, use_container_width=True)
 
     # Match Comparison Chart
+    # Match Comparison Chart
     comparison_df = pd.DataFrame({
         "Label": flat_labels,
         "Predict": flat_predictions
@@ -347,16 +348,29 @@ if st.button("Generate All Charts"):
     st.markdown("### Prediction Comparison Chart")
     comparison_melted = comparison_pivot.melt(id_vars="Label", var_name="Match Type", value_name="Count")
 
+    # Define color scheme alternating "Correct" and "Incorrect"
+    custom_colors = {
+        "Correct": "#0068C9",  # Same blue color as in the original chart
+        "Incorrect": "#83C9FF"  # Same orange color as in the original chart
+    }
+
     fig = px.bar(
         comparison_melted,
         x="Label",
         y="Count",
         color="Match Type",
+        color_discrete_map=custom_colors,  # Apply custom colors
         barmode="stack",
-        #title="Correct vs Incorrect Matches for Each Label Type",
-        labels={"Label": "Label Type", "Count": "Count", "Match Type": "Match Type"}
+        labels={"Label": "Label", "Count": "Count", "Match Type": "Match Type"}
     )
+
+    # Sort bars to alternate "Correct" and "Incorrect"
+    fig.for_each_trace(lambda trace: trace.update(name="Correct" if trace.name == "Correct" else "Incorrect"))
+    fig.data = sorted(fig.data, key=lambda x: x.name, reverse=False)  # Ensure alternating stacking
+
+    # Plotly chart
     st.plotly_chart(fig, use_container_width=True)
+
     # Component-wise Correct/Incorrect Summary
     st.markdown("#### Component of Adrress Correct vs Incorrect")
     components_order = ["Name", "HouseNumber", "Village", "Soi", "Road", "Subdistrict", "District", "Province", "PostalCode"]
