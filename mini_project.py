@@ -31,6 +31,7 @@ st.markdown("""
         </ul>
     </div>
 """, unsafe_allow_html=True)
+st.markdown('------------------------------------')
 # Feature extraction function
 def tokens_to_features(tokens, i):
     word = tokens[i]
