@@ -306,9 +306,9 @@ if st.button("Generate All Charts"):
     
     # Create DataFrame
     df_addresses = pd.DataFrame({
-        "Address ": samples,
-        "Predict": predictions,
-        "Labels": labels,
+        "ชื่อและที่อยู่ตามรูปแบบที่เลือก": samples,
+        "ผลการทำนาย": predictions,
+        "ผลลัพธ์ที่ถูกต้อง": labels,
     })
     st.dataframe(df_addresses)  # Display the DataFrame
 
